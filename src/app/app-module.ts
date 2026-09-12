@@ -1,7 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
-import { App } from './app';
+import { AppComponent } from './app';
 import { Navbar } from './shared/components/navbar/navbar';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { PenCursorComponent } from './shared/components/pen-cursor/pen-cursor.component';
@@ -15,7 +15,7 @@ import { WorkPage } from './pages/work/work.page';
 
 @NgModule({
   declarations: [
-    App,
+    AppComponent,
     Navbar,
     FooterComponent,
     PenCursorComponent,
@@ -29,6 +29,6 @@ import { WorkPage } from './pages/work/work.page';
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],
-  bootstrap: [App],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
