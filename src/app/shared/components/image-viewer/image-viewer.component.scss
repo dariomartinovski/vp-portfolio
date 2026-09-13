@@ -1,0 +1,198 @@
+.viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 35, 40, 0.96);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  // Keeps the closed dialog out of the tab order and the accessibility tree.
+  // Transitioning it alongside opacity lets the fade-out finish before it hides.
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--transition-slow),
+    visibility var(--transition-slow);
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  &__close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: color var(--transition-base);
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+
+  &__counter {
+    position: absolute;
+    top: 1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 860px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    gap: 1.5rem;
+    padding: 4rem 0 2rem;
+  }
+
+  &__skeleton {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(
+      90deg,
+      rgba(18, 84, 79, 0.4) 25%,
+      rgba(42, 131, 95, 0.15) 50%,
+      rgba(18, 84, 79, 0.4) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite;
+    border-radius: var(--radius-md);
+    transition: opacity 300ms ease;
+
+    &.hidden {
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    border-radius: var(--radius-md);
+    opacity: 0;
+    transition: opacity 400ms ease;
+
+    &.visible {
+      opacity: 1;
+    }
+  }
+
+  &__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  &__category {
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: var(--accent-light);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: var(--text-primary);
+  }
+
+  &__description {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  &__tag {
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    padding: 0.2rem 0.5rem;
+    border: 1px solid rgba(139, 187, 146, 0.15);
+    border-radius: 100px;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(18, 84, 79, 0.5);
+    border: 1px solid rgba(139, 187, 146, 0.15);
+    color: var(--text-primary);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background var(--transition-base),
+      border-color var(--transition-base);
+    z-index: 10;
+
+    &:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    &--prev {
+      left: 1.5rem;
+    }
+    &--next {
+      right: 1.5rem;
+    }
+
+    &.hidden {
+      opacity: 0;
+      // Without this the disabled-direction arrow stays in the tab order.
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      &--prev {
+        left: 0.5rem;
+      }
+      &--next {
+        right: 0.5rem;
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

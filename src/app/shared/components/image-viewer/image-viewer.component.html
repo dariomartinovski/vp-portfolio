@@ -1,1 +1,64 @@
-<p>image-viewer works!</p>
+<div
+  #dialog
+  class="viewer"
+  [class.open]="visible"
+  [attr.aria-label]="dialogLabel"
+  (click)="onBackdropClick($event)"
+  (touchstart)="onTouchStart($event)"
+  (touchend)="onTouchEnd($event)"
+  role="dialog"
+  aria-modal="true"
+>
+  <!-- Close button -->
+  <button #closeButton class="viewer__close" (click)="close()" aria-label="Close">✕</button>
+
+  <!-- Counter -->
+  <div class="viewer__counter" *ngIf="artworks.length > 1">
+    {{ currentIndex + 1 }} / {{ artworks.length }}
+  </div>
+
+  <!-- Main content -->
+  <div class="viewer__content" *ngIf="current">
+    <!-- Skeleton while image loads -->
+    <div class="viewer__skeleton" [class.hidden]="isImageLoaded"></div>
+
+    <img
+      [src]="current.src"
+      [alt]="current.title"
+      class="viewer__image"
+      [class.visible]="isImageLoaded"
+      (load)="onImageLoad()"
+    />
+
+    <!-- Info -->
+    <div class="viewer__info">
+      <span class="viewer__category">{{ current.category }}</span>
+      <h2 class="viewer__title">{{ current.title }}</h2>
+      <p class="viewer__description">{{ current.description }}</p>
+      <div class="viewer__tags">
+        <span class="viewer__tag" *ngFor="let tag of current.tags">#{{ tag }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation arrows -->
+  <button
+    class="viewer__arrow viewer__arrow--prev"
+    (click)="prev(); $event.stopPropagation()"
+    [class.hidden]="!hasPrev"
+    [attr.tabindex]="hasPrev ? null : -1"
+    aria-label="Previous"
+  >
+    ←
+  </button>
+
+  <button
+    class="viewer__arrow viewer__arrow--next"
+    (click)="next(); $event.stopPropagation()"
+    [class.hidden]="!hasNext"
+    [attr.tabindex]="hasNext ? null : -1"
+    aria-label="Next"
+  >
+    →
+  </button>
+</div>

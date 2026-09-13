@@ -1,1 +1,13 @@
-<p>skill-badge works!</p>
+<div class="badge">
+  <img
+    *ngIf="icon"
+    [src]="icon"
+    [alt]="name"
+    class="badge__icon"
+    width="20"
+    height="20"
+    loading="lazy"
+    (error)="onImgError($event)"
+  />
+  <span class="badge__name">{{ name }}</span>
+</div>

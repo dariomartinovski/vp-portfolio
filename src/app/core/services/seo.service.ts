@@ -4,7 +4,7 @@ import { Artwork } from '../../domain/interfaces/artwork.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
-  private readonly siteName = 'Your Name — Digital Illustrator & Designer';
+  private readonly siteName = 'Your Name - Digital Illustrator & Designer';
   private readonly defaultDescription =
     'Digital illustration, brand identity, and visual design. Human-made artwork built with craft and intention.';
   private readonly defaultImage = 'assets/images/og-preview.jpg';

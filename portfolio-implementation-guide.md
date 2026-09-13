@@ -135,13 +135,13 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    title: 'Your Name — Digital Illustrator & Designer'
+    title: 'Your Name - Digital Illustrator & Designer'
   },
   {
     path: 'work',
     loadComponent: () => import('./pages/work/work.component')
       .then(m => m.WorkComponent),
-    title: 'Work — Your Name'
+    title: 'Work - Your Name'
   },
   { path: '**', redirectTo: '' }
 ];

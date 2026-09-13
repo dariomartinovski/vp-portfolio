@@ -171,17 +171,6 @@ describe('NavbarComponent', () => {
       expect(query('.mobile-menu').classList.contains('open')).toBe(false);
     });
 
-    it('closes when the dedicated close button is used', () => {
-      query('.navbar__hamburger').click();
-      fixture.detectChanges();
-
-      query('.mobile-menu__close').click();
-      fixture.detectChanges();
-
-      expect(component.isMobileMenuOpen).toBe(false);
-      expect(query('.mobile-menu').classList.contains('open')).toBe(false);
-    });
-
     it('closes and scrolls when a link in the overlay is used', () => {
       query('.navbar__hamburger').click();
       fixture.detectChanges();

@@ -167,22 +167,6 @@
     pointer-events: all;
   }
 
-  &__close {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.25rem;
-    cursor: pointer;
-    transition: color var(--transition-base);
-
-    &:hover {
-      color: var(--text-primary);
-    }
-  }
-
   &__links {
     list-style: none;
     display: flex;

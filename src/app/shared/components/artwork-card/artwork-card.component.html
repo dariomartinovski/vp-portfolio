@@ -1,1 +1,28 @@
-<p>artwork-card works!</p>
+<figure class="card" (click)="onClick()">
+  <!-- Skeleton shimmer shown while image loads -->
+  <div class="card__skeleton" [class.hidden]="isLoaded"></div>
+
+  <!-- Fallback for broken images -->
+  <div class="card__error" *ngIf="hasError">
+    <span>Image unavailable</span>
+  </div>
+
+  <!-- Actual image -->
+  <img
+    *ngIf="!hasError"
+    [src]="artwork.thumbnail"
+    [alt]="artwork.title"
+    class="card__image"
+    [class.visible]="isLoaded"
+    loading="lazy"
+    (load)="onLoad()"
+    (error)="onError()"
+  />
+
+  <!-- Hover overlay -->
+  <figcaption class="card__overlay">
+    <span class="card__category">{{ artwork.category }}</span>
+    <span class="card__title">{{ artwork.title }}</span>
+    <span class="card__year">{{ artwork.year }}</span>
+  </figcaption>
+</figure>

@@ -1,0 +1,31 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(139, 187, 146, 0.2);
+  border-radius: 100px;
+  background: rgba(18, 84, 79, 0.3);
+  transition:
+    border-color var(--transition-base),
+    background var(--transition-base);
+
+  &:hover {
+    border-color: rgba(139, 187, 146, 0.5);
+    background: rgba(18, 84, 79, 0.6);
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
+
+  &__name {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+}

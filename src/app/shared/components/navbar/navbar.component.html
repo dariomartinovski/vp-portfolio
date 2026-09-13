@@ -37,9 +37,9 @@
   </div>
 </nav>
 
-<!-- Mobile Menu Overlay -->
+<!-- Mobile Menu Overlay. Closed by the hamburger above, which morphs into an ✕
+     and stays clickable because the navbar sits one z-index above this overlay. -->
 <div class="mobile-menu" [class.open]="isMobileMenuOpen">
-  <button class="mobile-menu__close" (click)="closeMobileMenu()" aria-label="Close menu">✕</button>
   <ul class="mobile-menu__links">
     <li *ngFor="let item of navItems">
       <a class="mobile-menu__link" [class.active]="isActive(item)" (click)="navigate(item)">

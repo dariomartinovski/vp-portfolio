@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-skill-badge',
   standalone: false,
-  styleUrl: './skill-badge.component.scss',
   templateUrl: './skill-badge.component.html',
+  styleUrl: './skill-badge.component.scss',
 })
-export class SkillBadgeComponent {}
+export class SkillBadgeComponent {
+  @Input() name = '';
+  @Input() icon = ''; // path to svg icon in assets
+
+  onImgError(event: Event): void {
+    (event.target as HTMLImageElement).style.display = 'none';
+  }
+}
