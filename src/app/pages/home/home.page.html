@@ -1,1 +1,229 @@
-<p>home works!</p>
+<!-- ============================================
+     SECTION 1 — HERO / LANDING
+     ============================================ -->
+<section id="home" class="hero">
+  <div class="hero__bg-text" aria-hidden="true">ART</div>
+
+  <div class="hero__content">
+    <app-section-reveal direction="up" [delay]="0">
+      <p class="hero__eyebrow">✦ Available for projects</p>
+    </app-section-reveal>
+
+    <app-section-reveal direction="up" [delay]="100">
+      <h1 class="hero__name">Your Name</h1>
+    </app-section-reveal>
+
+    <app-section-reveal direction="up" [delay]="200">
+      <p class="hero__title">Digital Illustrator<span class="hero__dot">·</span>Visual Designer</p>
+    </app-section-reveal>
+
+    <app-section-reveal direction="up" [delay]="300">
+      <p class="hero__sub">
+        I create illustrations and visual identities that feel human — crafted with care in a world
+        full of generated noise.
+      </p>
+    </app-section-reveal>
+
+    <app-section-reveal direction="up" [delay]="400">
+      <div class="hero__ctas">
+        <button class="btn btn--primary" (click)="scrollTo('featured')">See My Work</button>
+        <button class="btn btn--ghost" (click)="scrollTo('contact')">Let's Talk</button>
+      </div>
+    </app-section-reveal>
+  </div>
+
+  <!-- Decorative scroll indicator -->
+  <div class="hero__scroll" (click)="scrollTo('featured')">
+    <span class="hero__scroll-line"></span>
+    <span class="hero__scroll-label">scroll</span>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 2 — FEATURED WORK
+     ============================================ -->
+<section id="featured" class="featured">
+  <div class="section-inner">
+    <app-section-reveal direction="up">
+      <div class="section-header">
+        <p class="section-label">Selected Work</p>
+        <h2 class="section-title">Recent Projects</h2>
+      </div>
+    </app-section-reveal>
+
+    <div class="featured__grid">
+      <app-section-reveal
+        *ngFor="let artwork of featuredArtworks; let i = index"
+        direction="up"
+        [delay]="i * 120"
+      >
+        <app-artwork-card [artwork]="artwork" (clicked)="openViewer($event)"> </app-artwork-card>
+      </app-section-reveal>
+    </div>
+
+    <app-section-reveal direction="up" [delay]="200">
+      <div class="featured__cta">
+        <button class="btn btn--ghost" (click)="goToWork()">View All Work →</button>
+      </div>
+    </app-section-reveal>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 3 — MY STORY / ABOUT
+     ============================================ -->
+<section id="about" class="about">
+  <div class="section-inner about__inner">
+    <!-- Left column: image + badges -->
+    <div class="about__left">
+      <app-section-reveal direction="left">
+        <div class="about__image-wrap">
+          <img
+            src="assets/images/about/portrait.jpg"
+            alt="Your Name — Illustrator"
+            class="about__image"
+            loading="lazy"
+            width="400"
+            height="500"
+          />
+          <div class="about__image-accent"></div>
+        </div>
+      </app-section-reveal>
+
+      <app-section-reveal direction="left" [delay]="150">
+        <div class="about__badges">
+          <app-skill-badge *ngFor="let tech of technologies" [name]="tech.name" [icon]="tech.icon">
+          </app-skill-badge>
+        </div>
+      </app-section-reveal>
+    </div>
+
+    <!-- Right column: story + timeline -->
+    <div class="about__right">
+      <app-section-reveal direction="right">
+        <div class="section-header">
+          <p class="section-label">My Story</p>
+          <h2 class="section-title">Always Drawing Something</h2>
+        </div>
+      </app-section-reveal>
+
+      <app-section-reveal direction="right" [delay]="100">
+        <p class="about__text">
+          I've been drawing since I could hold a pencil. What started as sketchbooks full of
+          characters and creatures turned into a career building visual identities, illustrations,
+          and designs for clients around the world.
+        </p>
+        <p class="about__text">
+          I gravitate towards illustration and character design above all else — but I embrace every
+          kind of visual challenge. Branding, UI, print — I bring the same care and curiosity to all
+          of it.
+        </p>
+        <p class="about__text">Change doesn't scare me. Every new brief is a new world to build.</p>
+      </app-section-reveal>
+
+      <!-- Timeline -->
+      <app-section-reveal direction="right" [delay]="200">
+        <div class="timeline">
+          <div class="timeline__track">
+            <div class="timeline__progress" [style.height.%]="timelineProgress"></div>
+            <div class="timeline__dot" [style.top.%]="timelineProgress"></div>
+          </div>
+
+          <div class="timeline__items">
+            <div class="timeline__item" *ngFor="let m of timelineMilestones">
+              <span class="timeline__year">{{ m.year }}</span>
+              <div class="timeline__content">
+                <strong class="timeline__milestone">{{ m.label }}</strong>
+                <p class="timeline__desc">{{ m.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-section-reveal>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 4 — SERVICES
+     ============================================ -->
+<section id="services" class="services">
+  <div class="section-inner">
+    <app-section-reveal direction="up">
+      <div class="section-header section-header--center">
+        <p class="section-label">What I Do</p>
+        <h2 class="section-title">How I Can Help</h2>
+      </div>
+    </app-section-reveal>
+
+    <div class="services__grid">
+      <app-section-reveal
+        *ngFor="let service of allServices; let i = index"
+        direction="up"
+        [delay]="i * 120"
+      >
+        <div class="service-card">
+          <div class="service-card__icon">✦</div>
+          <h3 class="service-card__title">{{ service.title }}</h3>
+          <p class="service-card__desc">{{ service.description }}</p>
+          <span class="service-card__highlight">{{ service.highlight }}</span>
+        </div>
+      </app-section-reveal>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 5 — CONTACT
+     ============================================ -->
+<section id="contact" class="contact">
+  <div class="section-inner contact__inner">
+    <!-- Left: copy + social -->
+    <div class="contact__left">
+      <app-section-reveal direction="left">
+        <div class="section-header">
+          <p class="section-label">Get In Touch</p>
+          <h2 class="section-title">Let's Make<br />Something.</h2>
+        </div>
+      </app-section-reveal>
+
+      <app-section-reveal direction="left" [delay]="100">
+        <p class="contact__sub">
+          Have a project in mind? A brand to build? An illustration you're dreaming of? Let's talk
+          about it.
+        </p>
+      </app-section-reveal>
+
+      <app-section-reveal direction="left" [delay]="200">
+        <div class="contact__socials">
+          <a
+            *ngFor="let link of socialLinks"
+            [href]="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact__social-link"
+          >
+            {{ link.label }} ↗
+          </a>
+        </div>
+      </app-section-reveal>
+    </div>
+
+    <!-- Right: form -->
+    <app-section-reveal direction="right" class="contact__right">
+      <app-contact-form></app-contact-form>
+    </app-section-reveal>
+  </div>
+</section>
+
+<!-- Footer -->
+<app-footer></app-footer>
+
+<!-- Image viewer (lightbox) -->
+<app-image-viewer
+  [artworks]="featuredArtworks"
+  [currentIndex]="viewerIndex"
+  [visible]="viewerVisible"
+  (closed)="closeViewer()"
+>
+</app-image-viewer>

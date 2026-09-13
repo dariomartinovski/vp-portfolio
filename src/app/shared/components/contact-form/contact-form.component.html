@@ -1,1 +1,99 @@
-<p>contact-form works!</p>
+<div class="cform">
+  <!-- Success state -->
+  <div class="cform__success" *ngIf="state === 'success'">
+    <div class="cform__success-icon">✦</div>
+    <h3>Message sent.</h3>
+    <p>Thank you for reaching out — I'll get back to you soon.</p>
+  </div>
+
+  <!-- Error state -->
+  <div class="cform__error-msg" *ngIf="state === 'error'">
+    <p>Something went wrong. Please try again or email me directly.</p>
+    <button class="cform__retry" (click)="retry()">Try again</button>
+  </div>
+
+  <!-- Form -->
+  <form
+    *ngIf="state === 'idle' || state === 'submitting'"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    novalidate
+  >
+    <!-- Honeypot — hidden from real users -->
+    <input
+      formControlName="honeypot"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+      style="position: absolute; left: -9999px; opacity: 0"
+    />
+
+    <!-- Name -->
+    <div class="cform__field">
+      <label class="cform__label" for="name">Name</label>
+      <input
+        id="name"
+        class="cform__input"
+        [class.invalid]="isInvalid('name')"
+        formControlName="name"
+        type="text"
+        placeholder="Your name"
+        autocomplete="name"
+      />
+      <span class="cform__hint" *ngIf="isInvalid('name')"> Please enter your name </span>
+    </div>
+
+    <!-- Email -->
+    <div class="cform__field">
+      <label class="cform__label" for="email">Email</label>
+      <input
+        id="email"
+        class="cform__input"
+        [class.invalid]="isInvalid('email')"
+        formControlName="email"
+        type="email"
+        placeholder="your@email.com"
+        autocomplete="email"
+      />
+      <span class="cform__hint" *ngIf="isInvalid('email')"> Please enter a valid email </span>
+    </div>
+
+    <!-- Project type -->
+    <div class="cform__field">
+      <label class="cform__label" for="projectType"
+        >Project type
+        <span class="cform__optional">(optional)</span>
+      </label>
+      <select id="projectType" class="cform__select" formControlName="projectType">
+        <option value="">Select a type...</option>
+        <option *ngFor="let type of projectTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Message -->
+    <div class="cform__field">
+      <label class="cform__label" for="message">Message</label>
+      <textarea
+        id="message"
+        class="cform__textarea"
+        [class.invalid]="isInvalid('message')"
+        formControlName="message"
+        rows="5"
+        placeholder="Tell me about your project..."
+      >
+      </textarea>
+      <span class="cform__hint" *ngIf="isInvalid('message')">
+        Please enter a message (min 10 characters)
+      </span>
+    </div>
+
+    <!-- Submit -->
+    <button class="cform__submit" type="submit" [disabled]="state === 'submitting'">
+      <span *ngIf="state !== 'submitting'">Send Message</span>
+      <span *ngIf="state === 'submitting'" class="cform__spinner"></span>
+    </button>
+  </form>
+</div>

@@ -60,3 +60,76 @@ img {
     transition-duration: 0.01ms !important;
   }
 }
+
+// ---- Shared section utilities ----
+// Global rather than per-component: the Work page uses the same rules, and
+// keeping them here avoids duplicating them and tripping the 4kB
+// anyComponentStyle budget on each page that needs them.
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+
+  &--center {
+    text-align: center;
+  }
+}
+
+.section-label {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--accent-light);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+// ---- Shared buttons ----
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base);
+  border: none;
+
+  &--primary {
+    background: var(--accent);
+    color: var(--bg-base);
+    font-weight: 500;
+
+    &:hover {
+      background: var(--accent-light);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    border: 1px solid rgba(139, 187, 146, 0.3);
+    color: var(--accent-light);
+
+    &:hover {
+      border-color: var(--accent-light);
+      background: rgba(42, 131, 95, 0.1);
+    }
+  }
+}
