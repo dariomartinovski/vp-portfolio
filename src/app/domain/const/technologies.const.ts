@@ -4,8 +4,8 @@ export interface TechBadge {
 }
 
 export const TECHNOLOGIES: TechBadge[] = [
-  { name: 'Adobe Illustrator', icon: 'assets/images/icons/illustrator.svg' },
-  { name: 'Adobe Photoshop', icon: 'assets/images/icons/photoshop.svg' },
+  { name: 'Adobe Illustrator', icon: 'assets/images/icons/adobe_illustrator.svg' },
+  { name: 'Adobe Photoshop', icon: 'assets/images/icons/adobe_photoshop.svg' },
   { name: 'Figma', icon: 'assets/images/icons/figma.svg' },
-  { name: 'Procreate', icon: 'assets/images/icons/procreate.svg' },
+  { name: 'AI', icon: 'assets/images/icons/artificial_intelligence.svg' },
 ];
