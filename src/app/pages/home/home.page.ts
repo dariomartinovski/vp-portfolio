@@ -17,7 +17,7 @@ import { Artwork } from '../../domain/interfaces/artwork.interface';
 })
 export class HomePage implements OnInit, OnDestroy {
   readonly personName = PERSON_NAME;
-  readonly portraitAlt = `${PERSON_NAME} — Illustrator`;
+  readonly portraitAlt = `${PERSON_NAME} - Illustrator`;
 
   featuredArtworks: Artwork[] = ARTWORKS.filter((a) => a.featured);
   allServices = SERVICES;
@@ -34,29 +34,34 @@ export class HomePage implements OnInit, OnDestroy {
 
   timelineMilestones = [
     {
-      year: '2010',
-      label: 'First sketchbook',
-      description: 'Started drawing at age 8 — characters, creatures, worlds.',
+      year: '~2010',
+      label: 'Pencil meets paper',
+      description:
+        'Drawing became a constant from an early age - characters, creatures, worlds pulled straight from imagination.',
     },
     {
-      year: '2016',
-      label: 'Gone digital',
-      description: 'Discovered Photoshop and never looked back.',
+      year: '2013',
+      label: 'High school, full obsession',
+      description:
+        "Art took over in high school. Sketchbooks everywhere, fantasy worlds, characters - it was clear this wasn't just a hobby.",
     },
     {
-      year: '2019',
-      label: 'First client',
-      description: 'Designed a logo for a local business. Got paid to do what I love.',
+      year: '2017',
+      label: 'First illustration work',
+      description:
+        'Started producing illustrations for educational and promotional materials at International Slavic University.',
     },
     {
-      year: '2022',
-      label: 'Freelance full-time',
-      description: 'Took the leap — illustrations, branding, and identity work.',
+      year: '2024',
+      label: 'Editor, cartoonist, illustrator',
+      description:
+        'Creating illustrations and caricatures for publications, collaborating with authors and academic staff on real publishing projects.',
     },
     {
       year: 'Now',
-      label: 'Creating daily',
-      description: 'Working with clients worldwide, always drawing something new.',
+      label: 'Building something of my own',
+      description:
+        "Freelancing, illustrating, and designing - doing what I've always done, but on my own terms.",
     },
   ];
 

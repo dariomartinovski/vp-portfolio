@@ -47,7 +47,7 @@ export class WorkPage implements OnInit, OnDestroy {
   viewerVisible = false;
   viewerIndex = 0;
 
-  // For animation trigger — change key to retrigger
+  // For animation trigger - change key to retrigger
   animationState = 0;
 
   filterTabs: FilterTab[] = [

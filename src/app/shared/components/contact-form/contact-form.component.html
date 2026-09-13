@@ -3,7 +3,7 @@
   <div class="cform__success" *ngIf="state === 'success'">
     <div class="cform__success-icon">✦</div>
     <h3>Message sent.</h3>
-    <p>Thank you for reaching out — I'll get back to you soon.</p>
+    <p>Thank you for reaching out - I'll get back to you soon.</p>
   </div>
 
   <!-- Error state -->
@@ -19,7 +19,7 @@
     (ngSubmit)="onSubmit()"
     novalidate
   >
-    <!-- Honeypot — hidden from real users -->
+    <!-- Honeypot - hidden from real users -->
     <input
       formControlName="honeypot"
       type="text"

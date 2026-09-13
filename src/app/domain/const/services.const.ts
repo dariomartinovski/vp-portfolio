@@ -5,14 +5,14 @@ export const SERVICES: ServiceCard[] = [
     icon: 'pen-tool',
     title: 'Digitalize Your Vision',
     description:
-      'Bring hand-drawn concepts or rough ideas into polished digital illustrations — from first sketch to final file.',
+      'Bring hand-drawn concepts or rough ideas into polished digital illustrations - from first sketch to final file.',
     highlight: 'Sketch → Vector → Delivery',
   },
   {
     icon: 'sparkles',
     title: 'Human-Made in the Age of AI',
     description:
-      'Stand out with artwork that carries real personality and craft. Not generated — created.',
+      'Stand out with artwork that carries real personality and craft. Not generated - created.',
     highlight: 'Distinctly yours',
   },
   {

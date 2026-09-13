@@ -132,7 +132,7 @@ export class ImageViewerComponent implements OnChanges, OnDestroy {
   private moveFocusIntoDialog(): void {
     this.previouslyFocused = document.activeElement as HTMLElement | null;
     // The dialog is still visibility:hidden until change detection applies
-    // .open, and a hidden element cannot receive focus — defer one microtask.
+    // .open, and a hidden element cannot receive focus - defer one microtask.
     Promise.resolve().then(() => this.closeButton?.nativeElement.focus());
   }
 

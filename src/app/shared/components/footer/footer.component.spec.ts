@@ -26,7 +26,7 @@ describe('FooterComponent', () => {
   it('credits the artist alias under a dynamic copyright year', () => {
     const copy = root.querySelector('.footer__copy')?.textContent?.replace(/\s+/g, ' ').trim();
 
-    expect(copy).toBe(`© ${new Date().getFullYear()} ${ARTIST_NAME} — All rights reserved`);
+    expect(copy).toBe(`© ${new Date().getFullYear()} ${ARTIST_NAME} - All rights reserved`);
     expect(copy).not.toContain('2025');
   });
 

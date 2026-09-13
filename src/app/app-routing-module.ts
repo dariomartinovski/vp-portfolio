@@ -16,7 +16,7 @@ const routes: Routes = [
     // the standalone decision is made.
     path: 'work',
     component: WorkPage,
-    title: `Work — ${PERSON_NAME}`,
+    title: `Work - ${PERSON_NAME}`,
   },
   { path: '**', redirectTo: '' },
 ];

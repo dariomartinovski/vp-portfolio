@@ -20,17 +20,17 @@ export class SeoService {
   }
 
   setWorkMeta(): void {
-    const t = 'Work — ' + SITE_NAME;
+    const t = 'Work - ' + SITE_NAME;
     this.title.setTitle(t);
     this.setMeta(
       t,
-      'Browse the full portfolio — illustrations, branding, and visual design work.',
+      'Browse the full portfolio - illustrations, branding, and visual design work.',
       this.defaultImage,
     );
   }
 
   updateForArtwork(artwork: Artwork): void {
-    const t = artwork.title + ' — ' + SITE_NAME;
+    const t = artwork.title + ' - ' + SITE_NAME;
     this.title.setTitle(t);
     this.setMeta(t, artwork.description, artwork.src);
   }

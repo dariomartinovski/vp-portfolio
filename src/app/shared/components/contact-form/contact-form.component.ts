@@ -48,7 +48,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return;
     }
-    // Honeypot check — if filled, silently reject (bot)
+    // Honeypot check - if filled, silently reject (bot)
     if (this.form.get('honeypot')?.value) {
       this.state = 'success';
       return;

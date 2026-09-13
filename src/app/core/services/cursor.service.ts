@@ -19,7 +19,7 @@ const FORM_FIELD_SELECTOR = 'input, textarea, select, [contenteditable="true"]';
 export class CursorService {
   /**
    * Whether the pen nib should be visible. Flips only when the pointer crosses
-   * a zone boundary, so it is cheap to read from a binding — unlike the
+   * a zone boundary, so it is cheap to read from a binding - unlike the
    * position, which is written straight to the DOM on every mousemove.
    */
   readonly penActive = signal(false);

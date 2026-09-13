@@ -36,7 +36,7 @@ describe('SeoService', () => {
   it('prefixes the work page title', () => {
     service.setWorkMeta();
 
-    expect(title.getTitle()).toMatch(/^Work — /);
+    expect(title.getTitle()).toMatch(/^Work - /);
     expect(content('property="og:description"')).toContain('Browse the full portfolio');
   });
 
@@ -65,6 +65,6 @@ describe('SeoService', () => {
     service.setWorkMeta();
 
     expect(meta.getTags('name="description"').length).toBe(1);
-    expect(title.getTitle()).toMatch(/^Work — /);
+    expect(title.getTitle()).toMatch(/^Work - /);
   });
 });

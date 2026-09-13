@@ -112,7 +112,7 @@ describe('HomePage', () => {
 
     it('labels the portrait with the designer name', () => {
       expect(root.querySelector('.about__image')?.getAttribute('alt')).toBe(
-        `${PERSON_NAME} — Illustrator`,
+        `${PERSON_NAME} - Illustrator`,
       );
     });
 
