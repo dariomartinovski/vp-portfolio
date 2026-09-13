@@ -31,7 +31,7 @@ describe('FooterComponent', () => {
   });
 
   it('renders the three social links in order', () => {
-    expect(links().map((a) => a.textContent?.trim())).toEqual(['Instagram', 'Behance', 'Email']);
+    expect(links().map((a) => a.textContent?.trim())).toEqual(['Instagram', 'Email']);
   });
 
   it('guards every external link against reverse tabnabbing', () => {

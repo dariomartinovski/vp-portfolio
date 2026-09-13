@@ -8,7 +8,7 @@ export const PERSON_ROLE = 'Digital Illustrator & Designer';
  * the navbar logo subtitle and the footer credit - while PERSON_NAME stays the
  * primary name in the hero, document titles and `meta[name=author]`.
  */
-export const ARTIST_NAME = 'Visual Poetry';
+export const ARTIST_NAME = 'CyberPanx';
 
 /** Full site identity, used for document titles and social share cards. */
 export const SITE_NAME = `${PERSON_NAME} - ${PERSON_ROLE}`;

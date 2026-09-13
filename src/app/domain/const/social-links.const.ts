@@ -5,7 +5,6 @@ export interface SocialLink {
 }
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { label: 'Instagram', url: 'https://instagram.com/', icon: 'instagram' },
-  { label: 'Behance', url: 'https://behance.net/', icon: 'globe' },
-  { label: 'Email', url: 'mailto:hello@example.com', icon: 'mail' },
+  { label: 'Instagram', url: 'https://instagram.com/cyberpanx', icon: 'instagram' },
+  { label: 'Email', url: 'mailto:robertmartinovski0@gmail.com', icon: 'mail' },
 ];

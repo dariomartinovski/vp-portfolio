@@ -187,7 +187,7 @@ describe('HomePage', () => {
       const links = queryAll('.contact__social-link');
 
       expect(links.length).toBe(component.socialLinks.length);
-      expect(links[0].getAttribute('href')).toBe('https://instagram.com/');
+      expect(links[0].getAttribute('href')).toBe('https://instagram.com/c');
       expect(links[0].getAttribute('target')).toBe('_blank');
       expect(links[0].getAttribute('rel')).toBe('noopener noreferrer');
     });
