@@ -27,6 +27,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "docs",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -39,7 +40,8 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "/assets"
-              }
+              },
+              "src/404.html"
             ],
             "styles": [
               "src/styles.scss"
@@ -47,6 +49,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/portfolio/",
               "budgets": [
                 {
                   "type": "initial",
@@ -83,6 +86,13 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/portfolio/",
+            "dir": "docs/browser"
+          }
         }
       }
     }
