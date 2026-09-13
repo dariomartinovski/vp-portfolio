@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CursorService } from './core/services/cursor.service';
 
 @Component({
@@ -7,12 +7,16 @@ import { CursorService } from './core/services/cursor.service';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'portfolio';
 
   constructor(private cursorService: CursorService) {}
 
   ngOnInit(): void {
     this.cursorService.init();
+  }
+
+  ngOnDestroy(): void {
+    this.cursorService.destroy();
   }
 }

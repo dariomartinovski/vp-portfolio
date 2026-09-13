@@ -2,7 +2,7 @@ import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app';
-import { Navbar } from './shared/components/navbar/navbar';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { PenCursorComponent } from './shared/components/pen-cursor/pen-cursor.component';
 import { SectionRevealComponent } from './shared/components/section-reveal/section-reveal.component';
@@ -16,7 +16,7 @@ import { WorkPage } from './pages/work/work.page';
 @NgModule({
   declarations: [
     AppComponent,
-    Navbar,
+    NavbarComponent,
     FooterComponent,
     PenCursorComponent,
     SectionRevealComponent,

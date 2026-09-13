@@ -1,18 +1,20 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { auditTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ScrollService {
   private activeSectionSubject = new BehaviorSubject<string>('home');
-  activeSection$ = this.activeSectionSubject.asObservable();
+  // auditTime fires once per window for as long as the user keeps scrolling, so
+  // the same id would be re-published ~20x/second. Subscribers only want changes.
+  activeSection$ = this.activeSectionSubject.asObservable().pipe(distinctUntilChanged());
 
   private sectionIds = ['home', 'featured', 'about', 'services', 'contact'];
 
   constructor(private ngZone: NgZone) {
     this.ngZone.runOutsideAngular(() => {
       fromEvent(window, 'scroll')
-        .pipe(debounceTime(50))
+        .pipe(auditTime(50))
         .subscribe(() => this.updateActiveSection());
     });
   }

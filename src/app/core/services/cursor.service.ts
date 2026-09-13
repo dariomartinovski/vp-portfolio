@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, signal } from '@angular/core';
 
 interface TrailPoint {
   x: number;
@@ -6,14 +6,28 @@ interface TrailPoint {
   age: number; // 0 = newest, increases each frame
 }
 
+/**
+ * Elements inside a draw zone show the pen nib. Mark a host with
+ * `data-draw-zone` (see ArtworkCardComponent) to opt it in.
+ */
+export const DRAW_ZONE_SELECTOR = '[data-draw-zone]';
+
+/** The nib is always suppressed over text entry, whatever zone it sits in. */
+const FORM_FIELD_SELECTOR = 'input, textarea, select, [contenteditable="true"]';
+
 @Injectable({ providedIn: 'root' })
 export class CursorService {
+  /**
+   * Whether the pen nib should be visible. Flips only when the pointer crosses
+   * a zone boundary, so it is cheap to read from a binding — unlike the
+   * position, which is written straight to the DOM on every mousemove.
+   */
+  readonly penActive = signal(false);
+
   private canvas!: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D;
   private trail: TrailPoint[] = [];
-  private mouseX = 0;
-  private mouseY = 0;
-  private penEl!: HTMLElement;
+  private penEl: HTMLElement | null = null;
   private animFrameId!: number;
   private readonly MAX_TRAIL = 14;
   private readonly MAX_AGE = 18;
@@ -21,7 +35,10 @@ export class CursorService {
   constructor(private ngZone: NgZone) {}
 
   init(): void {
-    if ('ontouchstart' in window) return; // disable on touch
+    // `pointer: fine` matches mouse/trackpad as the primary input, including on
+    // touch-capable laptops. `'ontouchstart' in window` also matches those, which
+    // would silently disable the effect for users who do have a pointer.
+    if (!window.matchMedia('(pointer: fine)').matches) return;
 
     // Create canvas overlay
     this.canvas = document.createElement('canvas');
@@ -35,28 +52,6 @@ export class CursorService {
     this.ctx = this.canvas.getContext('2d')!;
     this.resizeCanvas();
 
-    // Create pen nib element
-    this.penEl = document.createElement('div');
-    this.penEl.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-           xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 19l7-7 3 3-7 7-3-3z" stroke="#8BBB92" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" stroke="#8BBB92"
-              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M2 2l7.586 7.586" stroke="#8BBB92" stroke-width="1.5"
-              stroke-linecap="round"/>
-        <circle cx="11" cy="11" r="2" stroke="#8BBB92" stroke-width="1.5"/>
-      </svg>`;
-    this.penEl.style.cssText = `
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-4px, -18px);
-      transition: opacity 200ms ease;
-    `;
-    document.body.appendChild(this.penEl);
-
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('resize', this.resizeCanvas);
@@ -64,25 +59,48 @@ export class CursorService {
     });
   }
 
+  /** Called by PenCursorComponent once its host element exists. */
+  registerPen(el: HTMLElement): void {
+    this.penEl = el;
+  }
+
+  unregisterPen(el: HTMLElement): void {
+    if (this.penEl === el) {
+      this.penEl = null;
+    }
+  }
+
   destroy(): void {
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('resize', this.resizeCanvas);
     cancelAnimationFrame(this.animFrameId);
     this.canvas?.remove();
-    this.penEl?.remove();
+    this.penEl = null;
+    this.trail = [];
+    this.ngZone.run(() => this.penActive.set(false));
   }
 
   private onMouseMove = (e: MouseEvent): void => {
-    this.mouseX = e.clientX;
-    this.mouseY = e.clientY;
-    this.penEl.style.left = e.clientX + 'px';
-    this.penEl.style.top = e.clientY + 'px';
+    if (this.penEl) {
+      this.penEl.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    }
+
+    const active = this.isDrawZone(e.target);
+    if (active !== this.penActive()) {
+      this.ngZone.run(() => this.penActive.set(active));
+    }
 
     this.trail.unshift({ x: e.clientX, y: e.clientY, age: 0 });
     if (this.trail.length > this.MAX_TRAIL) {
       this.trail.pop();
     }
   };
+
+  private isDrawZone(target: EventTarget | null): boolean {
+    if (!(target instanceof Element)) return false;
+    if (target.closest(FORM_FIELD_SELECTOR)) return false;
+    return target.closest(DRAW_ZONE_SELECTOR) !== null;
+  }
 
   private resizeCanvas = (): void => {
     this.canvas.width = window.innerWidth;

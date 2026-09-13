@@ -1,0 +1,56 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="navbar__inner">
+    <!-- Logo -->
+    <a class="navbar__logo" (click)="navigate({ label: 'Home', anchor: '#home' })">
+      <span class="navbar__logo-name">Your Name</span>
+      <span class="navbar__logo-title">Illustrator</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="navbar__links">
+      <li *ngFor="let item of navItems">
+        <a class="navbar__link" [class.active]="isActive(item)" (click)="navigate(item)">
+          {{ item.label }}
+        </a>
+      </li>
+      <li>
+        <a class="navbar__link" (click)="navigate(workLink)"> All Work </a>
+      </li>
+    </ul>
+
+    <!-- CTA -->
+    <a class="navbar__cta" (click)="navigate({ label: 'Contact', anchor: '#contact' })">
+      Let's Talk
+    </a>
+
+    <!-- Hamburger -->
+    <button
+      class="navbar__hamburger"
+      [class.open]="isMobileMenuOpen"
+      (click)="toggleMobileMenu()"
+      aria-label="Toggle menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" [class.open]="isMobileMenuOpen">
+  <button class="mobile-menu__close" (click)="closeMobileMenu()" aria-label="Close menu">✕</button>
+  <ul class="mobile-menu__links">
+    <li *ngFor="let item of navItems">
+      <a class="mobile-menu__link" [class.active]="isActive(item)" (click)="navigate(item)">
+        {{ item.label }}
+      </a>
+    </li>
+    <li>
+      <a class="mobile-menu__link" (click)="navigate(workLink)"> All Work </a>
+    </li>
+  </ul>
+  <a class="mobile-menu__cta" (click)="navigate({ label: 'Contact', anchor: '#contact' })">
+    Let's Talk
+  </a>
+</div>

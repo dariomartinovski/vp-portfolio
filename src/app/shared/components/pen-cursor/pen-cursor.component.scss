@@ -1,0 +1,21 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  color: var(--accent-light);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  will-change: transform;
+}
+
+:host(.pen--active) {
+  opacity: 1;
+}
+
+svg {
+  display: block;
+  // Nudge so the nib tip lands on the pointer rather than its top-left corner.
+  transform: translate(-4px, -18px);
+}

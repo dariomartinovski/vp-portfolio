@@ -1,0 +1,225 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.5rem 2rem;
+  transition:
+    background var(--transition-slow),
+    padding var(--transition-base),
+    backdrop-filter var(--transition-slow);
+
+  &.scrolled {
+    padding: 1rem 2rem;
+    background: rgba(9, 35, 40, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(139, 187, 146, 0.08);
+  }
+
+  &__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  &__logo {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    margin-right: auto;
+    line-height: 1.1;
+
+    &-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+    }
+
+    &-title {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: lowercase;
+    }
+  }
+
+  &__links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__link {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 2px;
+    transition: color var(--transition-base);
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-light);
+      transition: width var(--transition-base);
+    }
+
+    &:hover,
+    &.active {
+      color: var(--text-primary);
+
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  &__cta {
+    font-size: 0.8rem;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--accent);
+    color: var(--accent-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition:
+      background var(--transition-base),
+      color var(--transition-base);
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--accent);
+      color: var(--bg-base);
+    }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+
+    span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text-primary);
+      transition:
+        transform var(--transition-base),
+        opacity var(--transition-base);
+      transform-origin: center;
+    }
+
+    &.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+    &.open span:nth-child(2) {
+      opacity: 0;
+    }
+    &.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+}
+
+// Mobile menu overlay
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-base);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-slow);
+
+  &.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &__close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: color var(--transition-base);
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+
+  &__links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__link {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--transition-base);
+
+    &:hover,
+    &.active {
+      color: var(--text-primary);
+    }
+  }
+
+  &__cta {
+    font-size: 0.85rem;
+    padding: 0.75rem 2rem;
+    border: 1px solid var(--accent);
+    color: var(--accent-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    margin-top: 1rem;
+    transition:
+      background var(--transition-base),
+      color var(--transition-base);
+
+    &:hover {
+      background: var(--accent);
+      color: var(--bg-base);
+    }
+  }
+}

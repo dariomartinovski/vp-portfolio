@@ -16,11 +16,20 @@ describe('CursorService', () => {
   };
   let getContextSpy: ReturnType<typeof vi.spyOn>;
 
+  /**
+   * jsdom does not implement matchMedia at all, so it has to be defined rather
+   * than spied on. Real browsers have supported it since IE10.
+   */
+  function stubPointerFine(matches: boolean): void {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches }) as MediaQueryList),
+    );
+  }
+
   // jsdom has no canvas backend, so getContext('2d') returns null without a stub.
-  // jsdom also reports itself as a touch device, so the desktop context the
-  // pen cursor expects has to be established explicitly.
   beforeEach(() => {
-    delete (window as unknown as Record<string, unknown>)['ontouchstart'];
+    stubPointerFine(true);
     ctx = {
       clearRect: vi.fn(),
       beginPath: vi.fn(),
@@ -53,82 +62,165 @@ describe('CursorService', () => {
     getContextSpy.mockRestore();
     vi.unstubAllGlobals();
     document.body.innerHTML = '';
-    delete (window as unknown as Record<string, unknown>)['ontouchstart'];
   });
 
-  function overlay() {
-    const canvas = document.body.querySelector('canvas');
-    const pen = canvas?.nextElementSibling as HTMLElement | null;
-    return { canvas, pen };
+  /** Dispatches a bubbling mousemove so `event.target` is a real element. */
+  function moveOver(target: EventTarget, x = 10, y = 10): void {
+    target.dispatchEvent(new MouseEvent('mousemove', { clientX: x, clientY: y, bubbles: true }));
   }
 
-  it('appends a fixed, click-through canvas overlay and a pen nib element', () => {
-    service.init();
+  function drawZone(innerHTML = ''): HTMLElement {
+    const zone = document.createElement('div');
+    zone.setAttribute('data-draw-zone', '');
+    zone.innerHTML = innerHTML;
+    document.body.appendChild(zone);
+    return zone;
+  }
 
-    const { canvas, pen } = overlay();
-    expect(canvas).toBeTruthy();
-    expect(canvas!.style.position).toBe('fixed');
-    expect(canvas!.style.pointerEvents).toBe('none');
-    expect(canvas!.style.zIndex).toBe('9998');
+  describe('canvas trail', () => {
+    it('appends a fixed, click-through canvas overlay', () => {
+      service.init();
 
-    expect(pen).toBeTruthy();
-    expect(pen!.style.zIndex).toBe('9999');
-    expect(pen!.querySelector('svg')).toBeTruthy();
+      const canvas = document.body.querySelector('canvas');
+      expect(canvas).toBeTruthy();
+      expect(canvas!.style.position).toBe('fixed');
+      expect(canvas!.style.pointerEvents).toBe('none');
+      expect(canvas!.style.zIndex).toBe('9998');
+    });
+
+    it('sizes the canvas backing store to the viewport', () => {
+      service.init();
+
+      const canvas = document.body.querySelector('canvas')!;
+      expect(canvas.width).toBe(window.innerWidth);
+      expect(canvas.height).toBe(window.innerHeight);
+    });
+
+    it('creates no overlay when the primary pointer is coarse', () => {
+      stubPointerFine(false);
+
+      service.init();
+
+      expect(document.body.querySelector('canvas')).toBeNull();
+    });
+
+    it('draws a trail segment between mouse positions', () => {
+      service.init();
+
+      moveOver(document.body, 100, 200);
+      moveOver(document.body, 140, 240);
+      rafCallback!(0);
+
+      expect(ctx.clearRect).toHaveBeenCalled();
+      expect(ctx.moveTo).toHaveBeenCalled();
+      expect(ctx.lineTo).toHaveBeenCalled();
+      expect(ctx.stroke).toHaveBeenCalled();
+      expect(ctx.strokeStyle).toMatch(/^rgba\(139, 187, 146, /);
+    });
+
+    it('caps the trail at MAX_TRAIL points', () => {
+      service.init();
+
+      for (let i = 0; i < 40; i++) {
+        moveOver(document.body, i, i);
+      }
+
+      const trail = (service as unknown as { trail: unknown[] }).trail;
+      expect(trail.length).toBe(14);
+    });
+
+    it('removes the overlay and cancels the frame loop on destroy', () => {
+      service.init();
+      expect(document.body.querySelector('canvas')).toBeTruthy();
+
+      service.destroy();
+
+      expect(document.body.querySelector('canvas')).toBeNull();
+      expect(cancelAnimationFrame).toHaveBeenCalledWith(1);
+    });
   });
 
-  it('sizes the canvas backing store to the viewport', () => {
-    service.init();
+  describe('pen nib visibility', () => {
+    beforeEach(() => service.init());
 
-    const { canvas } = overlay();
-    expect(canvas!.width).toBe(window.innerWidth);
-    expect(canvas!.height).toBe(window.innerHeight);
+    it('stays hidden by default', () => {
+      moveOver(document.body);
+
+      expect(service.penActive()).toBe(false);
+    });
+
+    it('reveals the nib over a draw zone, including its descendants', () => {
+      const zone = drawZone('<span class="child"></span>');
+
+      moveOver(zone.querySelector('.child')!);
+
+      expect(service.penActive()).toBe(true);
+    });
+
+    it('hides the nib again once the pointer leaves the draw zone', () => {
+      const zone = drawZone();
+      moveOver(zone);
+      expect(service.penActive()).toBe(true);
+
+      moveOver(document.body);
+
+      expect(service.penActive()).toBe(false);
+    });
+
+    it('suppresses the nib over form fields inside a draw zone', () => {
+      const zone = drawZone('<input type="text" /><textarea></textarea>');
+
+      moveOver(zone.querySelector('input')!);
+      expect(service.penActive()).toBe(false);
+
+      moveOver(zone.querySelector('textarea')!);
+      expect(service.penActive()).toBe(false);
+    });
+
+    it('ignores non-element targets such as window and document', () => {
+      window.dispatchEvent(new MouseEvent('mousemove', { clientX: 5, clientY: 5 }));
+
+      expect(service.penActive()).toBe(false);
+    });
   });
 
-  it('creates no overlay on touch devices', () => {
-    Object.defineProperty(window, 'ontouchstart', { value: null, configurable: true });
+  describe('pen element registration', () => {
+    it('positions the registered element at the pointer', () => {
+      service.init();
+      const pen = document.createElement('div');
+      service.registerPen(pen);
 
-    service.init();
+      moveOver(document.body, 120, 240);
 
-    expect(document.body.querySelector('canvas')).toBeNull();
-  });
+      expect(pen.style.transform).toBe('translate3d(120px, 240px, 0)');
+    });
 
-  it('moves the pen nib and draws a trail segment between mouse positions', () => {
-    service.init();
-    const { pen } = overlay();
+    it('stops positioning after unregistering', () => {
+      service.init();
+      const pen = document.createElement('div');
+      service.registerPen(pen);
+      service.unregisterPen(pen);
 
-    window.dispatchEvent(new MouseEvent('mousemove', { clientX: 100, clientY: 200 }));
-    window.dispatchEvent(new MouseEvent('mousemove', { clientX: 140, clientY: 240 }));
+      moveOver(document.body, 120, 240);
 
-    expect(pen!.style.left).toBe('140px');
-    expect(pen!.style.top).toBe('240px');
+      expect(pen.style.transform).toBe('');
+    });
 
-    rafCallback!(0);
+    it('ignores an unregister call for a different element', () => {
+      service.init();
+      const pen = document.createElement('div');
+      service.registerPen(pen);
+      service.unregisterPen(document.createElement('div'));
 
-    expect(ctx.clearRect).toHaveBeenCalled();
-    expect(ctx.moveTo).toHaveBeenCalled();
-    expect(ctx.lineTo).toHaveBeenCalled();
-    expect(ctx.stroke).toHaveBeenCalled();
-    expect(ctx.strokeStyle).toMatch(/^rgba\(139, 187, 146, /);
-  });
+      moveOver(document.body, 10, 20);
 
-  it('caps the trail at MAX_TRAIL points', () => {
-    service.init();
+      expect(pen.style.transform).toBe('translate3d(10px, 20px, 0)');
+    });
 
-    for (let i = 0; i < 40; i++) {
-      window.dispatchEvent(new MouseEvent('mousemove', { clientX: i, clientY: i }));
-    }
+    it('survives mousemove before any pen is registered', () => {
+      service.init();
 
-    const trail = (service as unknown as { trail: unknown[] }).trail;
-    expect(trail.length).toBe(14);
-  });
-
-  it('removes the overlay and listeners on destroy', () => {
-    service.init();
-    expect(document.body.querySelector('canvas')).toBeTruthy();
-
-    service.destroy();
-
-    expect(document.body.querySelector('canvas')).toBeNull();
-    expect(cancelAnimationFrame).toHaveBeenCalledWith(1);
+      expect(() => moveOver(document.body, 10, 20)).not.toThrow();
+    });
   });
 });

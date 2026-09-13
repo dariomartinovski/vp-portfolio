@@ -5,5 +5,8 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './artwork-card.component.scss',
   templateUrl: './artwork-card.component.html',
+  host: {
+    'data-draw-zone': '',
+  },
 })
 export class ArtworkCardComponent {}
