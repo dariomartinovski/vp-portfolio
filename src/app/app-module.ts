@@ -1,6 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
@@ -28,7 +31,14 @@ import { WorkPage } from './pages/work/work.page';
     HomePage,
     WorkPage,
   ],
-  imports: [BrowserModule, ReactiveFormsModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+  ],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [AppComponent],
 })
