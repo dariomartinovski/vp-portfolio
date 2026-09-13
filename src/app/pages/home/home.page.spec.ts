@@ -11,6 +11,7 @@ import { ImageViewerComponent } from '../../shared/components/image-viewer/image
 import { SeoService } from '../../core/services/seo.service';
 import { ScrollService } from '../../core/services/scroll.service';
 import { ARTWORKS } from '../../domain/const/artworks.const';
+import { PERSON_NAME } from '../../domain/const/site.const';
 
 describe('HomePage', () => {
   let fixture: ComponentFixture<HomePage>;
@@ -102,11 +103,17 @@ describe('HomePage', () => {
     });
 
     it('renders the hero name, role and both CTAs', () => {
-      expect(root.querySelector('.hero__name')?.textContent?.trim()).toBe('Your Name');
+      expect(root.querySelector('.hero__name')?.textContent?.trim()).toBe(PERSON_NAME);
       expect(root.querySelector('.hero__title')?.textContent).toContain('Digital Illustrator');
 
       const ctas = queryAll('.hero__ctas .btn').map((b) => b.textContent?.trim());
       expect(ctas).toEqual(['See My Work', "Let's Talk"]);
+    });
+
+    it('labels the portrait with the designer name', () => {
+      expect(root.querySelector('.about__image')?.getAttribute('alt')).toBe(
+        `${PERSON_NAME} — Illustrator`,
+      );
     });
 
     it('renders the footer exactly once', () => {

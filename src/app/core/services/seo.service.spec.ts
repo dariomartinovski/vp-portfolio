@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoService } from './seo.service';
 import { Artwork } from '../../domain/interfaces/artwork.interface';
+import { ARTIST_NAME } from '../../domain/const/site.const';
 
 describe('SeoService', () => {
   let service: SeoService;
@@ -28,6 +29,7 @@ describe('SeoService', () => {
     expect(content('name="description"')).toContain('Human-made artwork');
     expect(content('property="og:title"')).toContain('Digital Illustrator');
     expect(content('property="og:image"')).toBe('assets/images/og-preview.jpg');
+    expect(content('property="og:site_name"')).toBe(ARTIST_NAME);
     expect(content('name="twitter:card"')).toBe('summary_large_image');
   });
 

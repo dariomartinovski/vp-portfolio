@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ARTIST_NAME, PERSON_NAME } from '../../../domain/const/site.const';
 
 @Component({
   selector: 'app-footer',
@@ -6,4 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './footer.component.scss',
   templateUrl: './footer.component.html',
 })
-export class FooterComponent {}
+export class FooterComponent {
+  readonly personName = PERSON_NAME;
+  readonly artistName = ARTIST_NAME;
+  readonly currentYear = new Date().getFullYear();
+}

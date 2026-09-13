@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { NavbarComponent } from './navbar.component';
 import { ScrollService } from '../../../core/services/scroll.service';
+import { ARTIST_NAME, PERSON_NAME } from '../../../domain/const/site.const';
 
 describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;
@@ -56,6 +57,14 @@ describe('NavbarComponent', () => {
   });
 
   describe('rendering', () => {
+    it('shows the designer name in the logo', () => {
+      expect(query('.navbar__logo-name').textContent?.trim()).toBe(PERSON_NAME);
+    });
+
+    it('shows the artist alias as the logo subtitle', () => {
+      expect(query('.navbar__logo-title').textContent?.trim()).toBe(ARTIST_NAME);
+    });
+
     it('renders a desktop link for every nav item plus the all-work link', () => {
       expect(linkLabels().length).toBe(component.navItems.length + 1);
       expect(linkLabels()).toContain('All Work');

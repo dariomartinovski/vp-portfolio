@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 import { ScrollService } from '../../../core/services/scroll.service';
 import { NAV_ITEMS, NAV_WORK_LINK } from '../../../domain/const/nav-items.const';
+import { ARTIST_NAME, PERSON_NAME } from '../../../domain/const/site.const';
 import { NavItem } from '../../../domain/interfaces/nav-item.interface';
 
 @Component({
@@ -12,6 +13,8 @@ import { NavItem } from '../../../domain/interfaces/nav-item.interface';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  readonly personName = PERSON_NAME;
+  readonly artistName = ARTIST_NAME;
   navItems: NavItem[] = NAV_ITEMS;
   workLink = NAV_WORK_LINK;
   activeSection = 'home';

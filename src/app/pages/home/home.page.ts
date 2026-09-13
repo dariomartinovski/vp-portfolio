@@ -4,6 +4,7 @@ import { SeoService } from '../../core/services/seo.service';
 import { ScrollService } from '../../core/services/scroll.service';
 import { ARTWORKS } from '../../domain/const/artworks.const';
 import { SERVICES } from '../../domain/const/services.const';
+import { PERSON_NAME } from '../../domain/const/site.const';
 import { SOCIAL_LINKS } from '../../domain/const/social-links.const';
 import { TECHNOLOGIES } from '../../domain/const/technologies.const';
 import { Artwork } from '../../domain/interfaces/artwork.interface';
@@ -15,6 +16,9 @@ import { Artwork } from '../../domain/interfaces/artwork.interface';
   styleUrl: './home.page.scss',
 })
 export class HomePage implements OnInit, OnDestroy {
+  readonly personName = PERSON_NAME;
+  readonly portraitAlt = `${PERSON_NAME} — Illustrator`;
+
   featuredArtworks: Artwork[] = ARTWORKS.filter((a) => a.featured);
   allServices = SERVICES;
   technologies = TECHNOLOGIES;

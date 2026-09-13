@@ -10,7 +10,7 @@
     </app-section-reveal>
 
     <app-section-reveal direction="up" [delay]="100">
-      <h1 class="hero__name">Your Name</h1>
+      <h1 class="hero__name">{{ personName }}</h1>
     </app-section-reveal>
 
     <app-section-reveal direction="up" [delay]="200">
@@ -80,7 +80,7 @@
         <div class="about__image-wrap">
           <img
             src="assets/images/about/portrait.jpg"
-            alt="Your Name — Illustrator"
+            [alt]="portraitAlt"
             class="about__image"
             loading="lazy"
             width="400"
