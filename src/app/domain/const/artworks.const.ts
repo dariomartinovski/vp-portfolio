@@ -68,7 +68,7 @@ export const ARTWORKS: Artwork[] = [
     tags: ['logo', 'redesign', 'branding'],
     src: 'assets/images/artworks/image_6.png',
     thumbnail: 'assets/images/thumbnails/image_6.webp',
-    featured: false,
+    featured: true,
     year: 2022,
   },
   {

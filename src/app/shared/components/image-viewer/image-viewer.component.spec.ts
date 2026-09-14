@@ -159,6 +159,65 @@ describe('ImageViewerComponent', () => {
     });
   });
 
+  describe('image loading', () => {
+    const image = (): HTMLImageElement => root.querySelector('.viewer__image')!;
+
+    /** jsdom never fetches images, so model a browser-cached image manually. */
+    function markComplete(): void {
+      Object.defineProperty(image(), 'complete', { value: true, configurable: true });
+      Object.defineProperty(image(), 'naturalWidth', { value: 800, configurable: true });
+    }
+
+    it('reveals an already-cached image without waiting for a load event', async () => {
+      fixture.componentRef.setInput('artworks', artworks);
+      fixture.componentRef.setInput('visible', true);
+      fixture.detectChanges();
+
+      // Synchronous, so it lands before the completeness microtask runs.
+      markComplete();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(image().classList.contains('visible')).toBe(true);
+    });
+
+    it('stays hidden until load fires when the image is not yet complete', async () => {
+      fixture.componentRef.setInput('artworks', artworks);
+      fixture.componentRef.setInput('visible', true);
+      fixture.detectChanges();
+
+      await Promise.resolve();
+      fixture.detectChanges();
+      expect(image().classList.contains('visible')).toBe(false);
+
+      image().dispatchEvent(new Event('load'));
+      fixture.detectChanges();
+
+      expect(image().classList.contains('visible')).toBe(true);
+    });
+
+    it('shows the image again when the same artwork is reopened', async () => {
+      fixture.componentRef.setInput('artworks', artworks);
+      fixture.componentRef.setInput('visible', true);
+      fixture.detectChanges();
+      markComplete();
+      await Promise.resolve();
+      fixture.detectChanges();
+      expect(image().classList.contains('visible')).toBe(true);
+
+      // Close, then reopen the same artwork: src is unchanged, so no load fires.
+      fixture.componentRef.setInput('visible', false);
+      fixture.detectChanges();
+      fixture.componentRef.setInput('visible', true);
+      fixture.detectChanges();
+      markComplete();
+      await Promise.resolve();
+      fixture.detectChanges();
+
+      expect(image().classList.contains('visible')).toBe(true);
+    });
+  });
+
   describe('body scroll lock', () => {
     it('locks body scroll on open', async () => {
       await open();

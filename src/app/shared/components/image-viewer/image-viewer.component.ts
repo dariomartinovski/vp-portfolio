@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -35,12 +36,16 @@ export class ImageViewerComponent implements OnChanges, OnDestroy {
 
   @ViewChild('dialog') private dialog?: ElementRef<HTMLElement>;
   @ViewChild('closeButton') private closeButton?: ElementRef<HTMLButtonElement>;
+  @ViewChild('artImage') private artImage?: ElementRef<HTMLImageElement>;
 
   isImageLoaded = false;
   private touchStartX = 0;
   private previouslyFocused: HTMLElement | null = null;
 
-  constructor(private seoService: SeoService) {}
+  constructor(
+    private seoService: SeoService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   get current(): Artwork {
     return this.artworks[this.currentIndex];
@@ -63,6 +68,11 @@ export class ImageViewerComponent implements OnChanges, OnDestroy {
       this.isImageLoaded = false;
       this.seoService.updateForArtwork(this.current);
       this.moveFocusIntoDialog();
+      // The browser fires no `load` event when `src` is assigned the value it
+      // already holds (reopening the last-viewed artwork, or index 0 which the
+      // always-mounted <img> fetched at page load), which would leave the image
+      // stuck invisible behind the skeleton. Re-check once the new src is applied.
+      Promise.resolve().then(() => this.syncLoadedState());
     } else {
       // A parent can hide the viewer by setting `visible` without going through
       // close(); without this branch the scroll lock would never be released.
@@ -139,6 +149,15 @@ export class ImageViewerComponent implements OnChanges, OnDestroy {
   private restoreFocus(): void {
     this.previouslyFocused?.focus?.();
     this.previouslyFocused = null;
+  }
+
+  private syncLoadedState(): void {
+    const img = this.artImage?.nativeElement;
+    if (img && img.complete && img.naturalWidth > 0 && !this.isImageLoaded) {
+      this.isImageLoaded = true;
+      // Raw microtask, not an Angular event: notify the zoneless scheduler.
+      this.cdr.markForCheck();
+    }
   }
 
   private trapFocus(e: KeyboardEvent): void {

@@ -23,6 +23,7 @@
     <div class="viewer__skeleton" [class.hidden]="isImageLoaded"></div>
 
     <img
+      #artImage
       [src]="current.src"
       [alt]="current.title"
       class="viewer__image"
