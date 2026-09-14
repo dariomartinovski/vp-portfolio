@@ -23,6 +23,6 @@
   <figcaption class="card__overlay">
     <span class="card__category">{{ artwork.category }}</span>
     <span class="card__title">{{ artwork.title }}</span>
-    <span class="card__year">{{ artwork.year }}</span>
+    <span class="card__year" *ngIf="artwork.year">{{ artwork.year }}</span>
   </figcaption>
 </figure>

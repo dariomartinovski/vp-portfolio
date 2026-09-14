@@ -162,10 +162,13 @@ describe('HomePage', () => {
   describe('about section', () => {
     it('renders every timeline milestone', () => {
       const items = queryAll('.timeline__item');
+      const milestones = component.timelineMilestones;
 
-      expect(items.length).toBe(5);
-      expect(items[0].querySelector('.timeline__year')?.textContent).toBe('2010');
-      expect(items[4].querySelector('.timeline__year')?.textContent).toBe('Now');
+      expect(items.length).toBe(milestones.length);
+      expect(items[0].querySelector('.timeline__year')?.textContent).toBe(milestones[0].year);
+      expect(items[items.length - 1].querySelector('.timeline__year')?.textContent).toBe(
+        milestones[milestones.length - 1].year,
+      );
     });
 
     it('renders one skill badge per technology', () => {
@@ -187,7 +190,7 @@ describe('HomePage', () => {
       const links = queryAll('.contact__social-link');
 
       expect(links.length).toBe(component.socialLinks.length);
-      expect(links[0].getAttribute('href')).toBe('https://instagram.com/c');
+      expect(links[0].getAttribute('href')).toBe(component.socialLinks[0].url);
       expect(links[0].getAttribute('target')).toBe('_blank');
       expect(links[0].getAttribute('rel')).toBe('noopener noreferrer');
     });

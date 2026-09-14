@@ -80,8 +80,8 @@ describe('WorkPage', () => {
 
   describe('filter tabs', () => {
     it('counts each category and drops the ones with no work', () => {
-      // ARTWORKS has no 'print' entries, so that tab is removed entirely.
-      expect(tabLabels()).toEqual(['All 5', 'Illustration 3', 'Branding 1', 'UI Design 1']);
+      // ARTWORKS has no 'ui' entries, so that tab is removed entirely.
+      expect(tabLabels()).toEqual(['All 23', 'Illustration 17', 'Branding 2', 'Print 4']);
     });
 
     it('keeps the All tab even when it is the only match', () => {
@@ -104,13 +104,15 @@ describe('WorkPage', () => {
       clickTab('Branding');
 
       expect(component.activeFilter).toBe('branding');
-      expect(queryAll('app-artwork-card').length).toBe(1);
-      expect(root.querySelector('.card__title')?.textContent?.trim()).toBe('Solaris Brand');
+      expect(queryAll('app-artwork-card').length).toBe(2);
+      expect(root.querySelector('.card__title')?.textContent?.trim()).toBe(
+        'BackToDeck Logo Design',
+      );
     });
 
     it('returns to every artwork when All is selected again', () => {
-      clickTab('UI Design');
-      expect(queryAll('app-artwork-card').length).toBe(1);
+      clickTab('Print');
+      expect(queryAll('app-artwork-card').length).toBe(4);
 
       clickTab('All');
 
@@ -136,17 +138,35 @@ describe('WorkPage', () => {
     it('filters to a single category', () => {
       component.setFilter('illustration');
 
-      expect(component.filteredArtworks.map((a) => a.id)).toEqual(['1', '2', '4']);
+      expect(component.filteredArtworks.map((a) => a.id)).toEqual([
+        '13',
+        '8',
+        '17',
+        '1',
+        '2',
+        '3',
+        '16',
+        '7',
+        '9',
+        '11',
+        '12',
+        '14',
+        '15',
+        '19',
+        '23',
+        '5',
+        '10',
+      ]);
     });
   });
 
   describe('result count and empty state', () => {
     it('pluralises the count', () => {
-      expect(root.querySelector('.work-count span')?.textContent?.trim()).toBe('5 works');
+      expect(root.querySelector('.work-count span')?.textContent?.trim()).toBe('23 works');
 
       clickTab('Branding');
 
-      expect(root.querySelector('.work-count span')?.textContent?.trim()).toBe('1 work');
+      expect(root.querySelector('.work-count span')?.textContent?.trim()).toBe('2 works');
     });
 
     it('shows the empty state and hides the grid when nothing matches', async () => {
@@ -177,12 +197,12 @@ describe('WorkPage', () => {
     });
 
     it('indexes against the filtered list, not the full list', () => {
-      component.setFilter('illustration');
+      component.setFilter('print');
       fixture.detectChanges();
 
-      // '4' is index 2 of the filtered list but index 3 of ARTWORKS.
-      const nightMarket = ARTWORKS.find((a) => a.id === '4')!;
-      component.openViewer(nightMarket);
+      // '21' is index 2 of the print-filtered list but index 11 of ARTWORKS.
+      const businessCard = ARTWORKS.find((a) => a.id === '21')!;
+      component.openViewer(businessCard);
 
       expect(component.viewerIndex).toBe(2);
     });
@@ -204,7 +224,9 @@ describe('WorkPage', () => {
 
       const viewer = root.querySelector('app-image-viewer');
       expect(viewer).toBeTruthy();
-      expect(component.filteredArtworks.length).toBe(1);
+      expect(component.filteredArtworks.length).toBe(
+        ARTWORKS.filter((a) => a.category === 'branding').length,
+      );
     });
   });
 
@@ -225,8 +247,8 @@ describe('WorkPage', () => {
 
   describe('trackBy', () => {
     it('keys rows by artwork id', () => {
-      expect(component.trackByArtwork(0, ARTWORKS[0])).toBe('1');
-      expect(component.trackByArtwork(5, ARTWORKS[4])).toBe('5');
+      expect(component.trackByArtwork(0, ARTWORKS[0])).toBe(ARTWORKS[0].id);
+      expect(component.trackByArtwork(5, ARTWORKS[4])).toBe(ARTWORKS[4].id);
     });
   });
 });

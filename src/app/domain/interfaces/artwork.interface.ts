@@ -7,5 +7,6 @@ export interface Artwork {
   src: string;
   thumbnail: string;
   featured: boolean;
-  year: number;
+  /** Omitted for pieces whose creation date isn't recorded. */
+  year?: number;
 }

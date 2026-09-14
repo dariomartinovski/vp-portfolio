@@ -45,6 +45,14 @@ describe('ArtworkCardComponent', () => {
     expect(root.querySelector('.card__year')?.textContent?.trim()).toBe('2024');
   });
 
+  it('omits the year element entirely when no date is recorded', () => {
+    fixture.componentRef.setInput('artwork', { ...artwork, year: undefined });
+    fixture.detectChanges();
+
+    expect(root.querySelector('.card__year')).toBeNull();
+    expect(root.querySelector('.card__title')?.textContent?.trim()).toBe('Forest Spirit');
+  });
+
   it('shows the skeleton and hides the image before load', () => {
     expect(root.querySelector('.card__skeleton')!.classList.contains('hidden')).toBe(false);
     expect(image()!.classList.contains('visible')).toBe(false);
