@@ -39,6 +39,11 @@ testem.log
 /typings
 __screenshots__/
 
+# Production config carries EmailJS keys; generated locally from the
+# .example template, or in CI from GitHub secrets. Never commit it.
+/src/environments/environment.prod.ts
+/docs
+
 # System files
 .DS_Store
 Thumbs.db

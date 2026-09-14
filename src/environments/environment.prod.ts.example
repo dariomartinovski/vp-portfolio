@@ -1,0 +1,18 @@
+/**
+ * Production configuration template. NOT committed — see .gitignore.
+ *
+ * For a local production build, copy and fill in your EmailJS production keys:
+ *
+ *   cp src/environments/environment.prod.ts.example src/environments/environment.prod.ts
+ *
+ * In CI, .github/workflows/deploy.yml generates this file from GitHub secrets,
+ * so real keys never enter the repository.
+ */
+export const environment = {
+  production: true,
+  emailjs: {
+    serviceId: 'YOUR_SERVICE_ID',
+    templateId: 'YOUR_TEMPLATE_ID',
+    publicKey: 'YOUR_PUBLIC_KEY',
+  },
+};

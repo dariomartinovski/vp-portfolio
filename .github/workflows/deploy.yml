@@ -1,0 +1,52 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # environment.prod.ts is gitignored, so generate it here from repository
+      # secrets. The values are baked into the bundle at build time; they are
+      # NOT secret at runtime (EmailJS public keys are public by design).
+      - name: Generate production environment from secrets
+        env:
+          EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+        run: |
+          cat > src/environments/environment.prod.ts <<EOF
+          export const environment = {
+            production: true,
+            emailjs: {
+              serviceId: '${EMAILJS_SERVICE_ID}',
+              templateId: '${EMAILJS_TEMPLATE_ID}',
+              publicKey: '${EMAILJS_PUBLIC_KEY}',
+            },
+          };
+          EOF
+
+      - run: npm run build:prod
+
+      # Publishes docs/browser to the gh-pages branch. In repository settings:
+      # Settings -> Pages -> Source: Deploy from a branch -> gh-pages / (root).
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: docs/browser

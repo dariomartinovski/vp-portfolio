@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import emailjs from '@emailjs/browser';
 import { EmailService } from './email.service';
+import { environment } from '../../../environments/environment';
 
 describe('EmailService', () => {
   let service: EmailService;
@@ -28,15 +29,15 @@ describe('EmailService', () => {
     );
 
     expect(sendSpy).toHaveBeenCalledWith(
-      'YOUR_SERVICE_ID',
-      'YOUR_TEMPLATE_ID',
+      environment.emailjs.serviceId,
+      environment.emailjs.templateId,
       {
         from_name: 'Ada Lovelace',
         from_email: 'ada@example.com',
         message: 'Lets talk about a commission.',
         project_type: 'Illustration',
       },
-      'YOUR_PUBLIC_KEY',
+      environment.emailjs.publicKey,
     );
   });
 
