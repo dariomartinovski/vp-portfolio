@@ -14,7 +14,9 @@ import { ArtworkCardComponent } from './shared/components/artwork-card/artwork-c
 import { ImageViewerComponent } from './shared/components/image-viewer/image-viewer.component';
 import { SkillBadgeComponent } from './shared/components/skill-badge/skill-badge.component';
 import { ContactFormComponent } from './shared/components/contact-form/contact-form.component';
+import { LanguageToggleComponent } from './shared/components/language-toggle/language-toggle.component';
 import { TruncatePipe } from './shared/pipes/truncate.pipe';
+import { TranslatePipe } from './shared/pipes/translate.pipe';
 import { HomePage } from './pages/home/home.page';
 import { WorkPage } from './pages/work/work.page';
 
@@ -29,6 +31,7 @@ import { WorkPage } from './pages/work/work.page';
     ImageViewerComponent,
     SkillBadgeComponent,
     ContactFormComponent,
+    LanguageToggleComponent,
     TruncatePipe,
     HomePage,
     WorkPage,
@@ -40,6 +43,7 @@ import { WorkPage } from './pages/work/work.page';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
+    TranslatePipe,
   ],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [AppComponent],

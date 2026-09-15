@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ContactFormComponent } from './contact-form.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { EmailService } from '../../../core/services/email.service';
 
 describe('ContactFormComponent', () => {
@@ -27,7 +28,7 @@ describe('ContactFormComponent', () => {
     sendMessage = vi.fn(() => sent$.asObservable());
 
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, TranslatePipe],
       declarations: [ContactFormComponent],
       providers: [{ provide: EmailService, useValue: { sendMessage } }],
     }).compileComponents();

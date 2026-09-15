@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
@@ -10,8 +11,10 @@ import { FooterComponent } from '../../shared/components/footer/footer.component
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ScrollService } from '../../core/services/scroll.service';
+import { LanguageService } from '../../core/services/language.service';
 import { ARTWORKS } from '../../domain/const/artworks.const';
 import { PERSON_NAME } from '../../domain/const/site.const';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 describe('HomePage', () => {
   let fixture: ComponentFixture<HomePage>;
@@ -61,7 +64,7 @@ describe('HomePage', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterModule.forRoot([])],
+      imports: [ReactiveFormsModule, RouterModule.forRoot([]), TranslatePipe],
       declarations: [
         HomePage,
         SectionRevealComponent,
@@ -93,6 +96,7 @@ describe('HomePage', () => {
     root.remove();
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
+    localStorage.clear();
   });
 
   describe('sections', () => {
@@ -111,8 +115,16 @@ describe('HomePage', () => {
     });
 
     it('labels the portrait with the designer name', () => {
+      expect(root.querySelector('.about__image')?.getAttribute('alt')).toBe(component.portraitAlt);
+    });
+
+    it('localises the hero name and portrait alt in Macedonian', () => {
+      TestBed.inject(LanguageService).setLanguage('mk');
+      TestBed.inject(ApplicationRef).tick();
+
+      expect(root.querySelector('.hero__name')?.textContent?.trim()).toBe('Роберт Мартиновски');
       expect(root.querySelector('.about__image')?.getAttribute('alt')).toBe(
-        `${PERSON_NAME} - Illustrator`,
+        'Роберт Мартиновски - Илустратор',
       );
     });
 

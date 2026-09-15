@@ -2,13 +2,15 @@
 <section class="work-hero">
   <div class="work-inner">
     <div class="work-hero__back">
-      <button class="back-btn" (click)="goHome()">← Back</button>
+      <button class="back-btn" (click)="goHome()">{{ '← Back' | translate }}</button>
     </div>
 
     <div class="work-hero__text">
-      <p class="work-label">Portfolio</p>
-      <h1 class="work-title">All Work</h1>
-      <p class="work-subtitle">A collection of illustrations, branding, and design projects.</p>
+      <p class="work-label">{{ 'Portfolio' | translate }}</p>
+      <h1 class="work-title">{{ 'All Work' | translate }}</h1>
+      <p class="work-subtitle">
+        {{ 'A collection of illustrations, branding, and design projects.' | translate }}
+      </p>
     </div>
 
     <!-- Filter tabs -->
@@ -21,7 +23,7 @@
         role="tab"
         [attr.aria-selected]="activeFilter === tab.value"
       >
-        {{ tab.label }}
+        {{ tab.label | translate }}
         <span class="filter-tab__count">{{ tab.count }}</span>
       </button>
     </div>
@@ -33,7 +35,7 @@
   <div class="work-inner">
     <!-- Empty state -->
     <div class="work-empty" *ngIf="filteredArtworks.length === 0">
-      <p>No work in this category yet.</p>
+      <p>{{ 'No work in this category yet.' | translate }}</p>
     </div>
 
     <!-- Grid -->
@@ -48,7 +50,10 @@
 
     <!-- Result count -->
     <div class="work-count">
-      <span>{{ filteredArtworks.length }} work{{ filteredArtworks.length !== 1 ? 's' : '' }}</span>
+      <span
+        >{{ filteredArtworks.length }}
+        {{ (filteredArtworks.length !== 1 ? 'works' : 'work') | translate }}</span
+      >
     </div>
   </div>
 </section>

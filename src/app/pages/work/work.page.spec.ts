@@ -7,6 +7,7 @@ import { FooterComponent } from '../../shared/components/footer/footer.component
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
 import { SeoService } from '../../core/services/seo.service';
 import { ARTWORKS } from '../../domain/const/artworks.const';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 describe('WorkPage', () => {
   let fixture: ComponentFixture<WorkPage>;
@@ -39,7 +40,7 @@ describe('WorkPage', () => {
     setWorkMeta = vi.fn();
 
     await TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), NoopAnimationsModule],
+      imports: [RouterModule.forRoot([]), NoopAnimationsModule, TranslatePipe],
       declarations: [WorkPage, ArtworkCardComponent, FooterComponent, ImageViewerComponent],
       providers: [{ provide: SeoService, useValue: { setWorkMeta } }],
     }).compileComponents();

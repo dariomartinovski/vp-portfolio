@@ -2,7 +2,7 @@
   <div class="navbar__inner">
     <!-- Logo -->
     <a class="navbar__logo" (click)="navigate({ label: 'Home', anchor: '#home' })">
-      <span class="navbar__logo-name">{{ personName }}</span>
+      <span class="navbar__logo-name">{{ personName | translate }}</span>
       <span class="navbar__logo-title">{{ artistName }}</span>
     </a>
 
@@ -10,18 +10,23 @@
     <ul class="navbar__links">
       <li *ngFor="let item of navItems">
         <a class="navbar__link" [class.active]="isActive(item)" (click)="navigate(item)">
-          {{ item.label }}
+          {{ item.label | translate }}
         </a>
       </li>
       <li>
-        <a class="navbar__link" (click)="navigate(workLink)"> All Work </a>
+        <a class="navbar__link" (click)="navigate(workLink)">
+          {{ 'All Work' | translate }}
+        </a>
       </li>
     </ul>
 
     <!-- CTA -->
     <a class="navbar__cta" (click)="navigate({ label: 'Contact', anchor: '#contact' })">
-      Let's Talk
+      {{ "Let's Talk" | translate }}
     </a>
+
+    <!-- Language switch (desktop, top right) -->
+    <app-language-toggle class="navbar__lang"></app-language-toggle>
 
     <!-- Hamburger -->
     <button
@@ -43,14 +48,19 @@
   <ul class="mobile-menu__links">
     <li *ngFor="let item of navItems">
       <a class="mobile-menu__link" [class.active]="isActive(item)" (click)="navigate(item)">
-        {{ item.label }}
+        {{ item.label | translate }}
       </a>
     </li>
     <li>
-      <a class="mobile-menu__link" (click)="navigate(workLink)"> All Work </a>
+      <a class="mobile-menu__link" (click)="navigate(workLink)">
+        {{ 'All Work' | translate }}
+      </a>
     </li>
   </ul>
   <a class="mobile-menu__cta" (click)="navigate({ label: 'Contact', anchor: '#contact' })">
-    Let's Talk
+    {{ "Let's Talk" | translate }}
   </a>
+
+  <!-- Language switch at the bottom of the mobile menu -->
+  <app-language-toggle class="mobile-menu__lang"></app-language-toggle>
 </div>

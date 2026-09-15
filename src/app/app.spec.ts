@@ -4,12 +4,20 @@ import { AppComponent } from './app';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { PenCursorComponent } from './shared/components/pen-cursor/pen-cursor.component';
+import { LanguageToggleComponent } from './shared/components/language-toggle/language-toggle.component';
+import { TranslatePipe } from './shared/pipes/translate.pipe';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [AppComponent, NavbarComponent, FooterComponent, PenCursorComponent],
+      imports: [RouterModule.forRoot([]), TranslatePipe],
+      declarations: [
+        AppComponent,
+        NavbarComponent,
+        FooterComponent,
+        PenCursorComponent,
+        LanguageToggleComponent,
+      ],
     }).compileComponents();
   });
 

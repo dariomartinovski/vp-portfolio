@@ -6,28 +6,37 @@
 
   <div class="hero__content">
     <app-section-reveal direction="up" [delay]="0">
-      <p class="hero__eyebrow">✦ Available for projects</p>
+      <p class="hero__eyebrow">{{ '✦ Available for projects' | translate }}</p>
     </app-section-reveal>
 
     <app-section-reveal direction="up" [delay]="100">
-      <h1 class="hero__name">{{ personName }}</h1>
+      <h1 class="hero__name">{{ personName | translate }}</h1>
     </app-section-reveal>
 
     <app-section-reveal direction="up" [delay]="200">
-      <p class="hero__title">Digital Illustrator<span class="hero__dot">·</span>Visual Designer</p>
+      <p class="hero__title">
+        {{ 'Digital Illustrator' | translate }}<span class="hero__dot">·</span
+        >{{ 'Visual Designer' | translate }}
+      </p>
     </app-section-reveal>
 
     <app-section-reveal direction="up" [delay]="300">
       <p class="hero__sub">
-        I create illustrations and visual identities that feel human - crafted with care in a world
-        full of generated noise.
+        {{
+          'I create illustrations and visual identities that feel human - crafted with care in a world full of generated noise.'
+            | translate
+        }}
       </p>
     </app-section-reveal>
 
     <app-section-reveal direction="up" [delay]="400">
       <div class="hero__ctas">
-        <button class="btn btn--primary" (click)="scrollTo('featured')">See My Work</button>
-        <button class="btn btn--ghost" (click)="scrollTo('contact')">Let's Talk</button>
+        <button class="btn btn--primary" (click)="scrollTo('featured')">
+          {{ 'See My Work' | translate }}
+        </button>
+        <button class="btn btn--ghost" (click)="scrollTo('contact')">
+          {{ "Let's Talk" | translate }}
+        </button>
       </div>
     </app-section-reveal>
   </div>
@@ -35,7 +44,7 @@
   <!-- Decorative scroll indicator -->
   <div class="hero__scroll" (click)="scrollTo('featured')">
     <span class="hero__scroll-line"></span>
-    <span class="hero__scroll-label">scroll</span>
+    <span class="hero__scroll-label">{{ 'scroll' | translate }}</span>
   </div>
 </section>
 
@@ -46,8 +55,8 @@
   <div class="section-inner">
     <app-section-reveal direction="up">
       <div class="section-header">
-        <p class="section-label">Selected Work</p>
-        <h2 class="section-title">Recent Projects</h2>
+        <p class="section-label">{{ 'Selected Work' | translate }}</p>
+        <h2 class="section-title">{{ 'Recent Projects' | translate }}</h2>
       </div>
     </app-section-reveal>
 
@@ -63,7 +72,9 @@
 
     <app-section-reveal direction="up" [delay]="200">
       <div class="featured__cta">
-        <button class="btn btn--ghost" (click)="goToWork()">View All Work →</button>
+        <button class="btn btn--ghost" (click)="goToWork()">
+          {{ 'View All Work →' | translate }}
+        </button>
       </div>
     </app-section-reveal>
   </div>
@@ -80,7 +91,7 @@
         <div class="about__image-wrap">
           <img
             src="assets/images/about/portrait.jpg"
-            [alt]="portraitAlt"
+            [alt]="portraitAlt | translate"
             class="about__image"
             loading="lazy"
             width="400"
@@ -102,33 +113,33 @@
     <div class="about__right">
       <app-section-reveal direction="right">
         <div class="section-header">
-          <p class="section-label">My Story</p>
-          <h2 class="section-title">From Sketchbooks<br>to Screens</h2>
+          <p class="section-label">{{ 'My Story' | translate }}</p>
+          <h2 class="section-title">
+            {{ 'From Sketchbooks' | translate }}<br />{{ 'to Screens' | translate }}
+          </h2>
         </div>
       </app-section-reveal>
 
       <app-section-reveal direction="right" [delay]="100">
         <p class="about__text">
-          Hey, I'm Robert - a digital artist and illustrator from Macedonia.
-          Drawing has been part of my life for as long as I can remember,
-          but it was in high school that it truly took over. Sketchbooks,
-          fantasy worlds, characters - I was fully immersed.
+          {{
+            "Hey, I'm Robert - a digital artist and illustrator from Macedonia. Drawing has been part of my life for as long as I can remember, but it was in high school that it truly took over. Sketchbooks, fantasy worlds, characters - I was fully immersed."
+              | translate
+          }}
         </p>
         <p class="about__text">
-          Five years ago I made the jump to digital art, and it opened up
-          a whole new dimension. I fell in love with 2D illustration -
-          bringing characters and worlds to life with a digital brush,
-          exploring the kind of detail and colour that's hard to achieve
-          any other way.
+          {{
+            "Five years ago I made the jump to digital art, and it opened up a whole new dimension. I fell in love with 2D illustration - bringing characters and worlds to life with a digital brush, exploring the kind of detail and colour that's hard to achieve any other way."
+              | translate
+          }}
         </p>
         <p class="about__text">
-          Alongside illustration I work in graphic design - logos, brand
-          identities, visual content. My path hasn't been a straight line,
-          but every twist brought me back to the same place: creating.
-          That's where I belong.
+          {{
+            "Alongside illustration I work in graphic design - logos, brand identities, visual content. My path hasn't been a straight line, but every twist brought me back to the same place: creating. That's where I belong."
+              | translate
+          }}
         </p>
       </app-section-reveal>
-
 
       <!-- Timeline -->
       <app-section-reveal direction="right" [delay]="200">
@@ -140,10 +151,10 @@
 
           <div class="timeline__items">
             <div class="timeline__item" *ngFor="let m of timelineMilestones">
-              <span class="timeline__year">{{ m.year }}</span>
+              <span class="timeline__year">{{ m.year | translate }}</span>
               <div class="timeline__content">
-                <strong class="timeline__milestone">{{ m.label }}</strong>
-                <p class="timeline__desc">{{ m.description }}</p>
+                <strong class="timeline__milestone">{{ m.label | translate }}</strong>
+                <p class="timeline__desc">{{ m.description | translate }}</p>
               </div>
             </div>
           </div>
@@ -160,8 +171,8 @@
   <div class="section-inner">
     <app-section-reveal direction="up">
       <div class="section-header section-header--center">
-        <p class="section-label">What I Do</p>
-        <h2 class="section-title">How I Can Help</h2>
+        <p class="section-label">{{ 'What I Do' | translate }}</p>
+        <h2 class="section-title">{{ 'How I Can Help' | translate }}</h2>
       </div>
     </app-section-reveal>
 
@@ -173,9 +184,9 @@
       >
         <div class="service-card">
           <div class="service-card__icon">✦</div>
-          <h3 class="service-card__title">{{ service.title }}</h3>
-          <p class="service-card__desc">{{ service.description }}</p>
-          <span class="service-card__highlight">{{ service.highlight }}</span>
+          <h3 class="service-card__title">{{ service.title | translate }}</h3>
+          <p class="service-card__desc">{{ service.description | translate }}</p>
+          <span class="service-card__highlight">{{ service.highlight | translate }}</span>
         </div>
       </app-section-reveal>
     </div>
@@ -191,15 +202,19 @@
     <div class="contact__left">
       <app-section-reveal direction="left">
         <div class="section-header">
-          <p class="section-label">Get In Touch</p>
-          <h2 class="section-title">Let's Make<br />Something.</h2>
+          <p class="section-label">{{ 'Get In Touch' | translate }}</p>
+          <h2 class="section-title">
+            {{ "Let's Make" | translate }}<br />{{ 'Something.' | translate }}
+          </h2>
         </div>
       </app-section-reveal>
 
       <app-section-reveal direction="left" [delay]="100">
         <p class="contact__sub">
-          Have a project in mind? A brand to build? An illustration you're dreaming of? Let's talk
-          about it.
+          {{
+            "Have a project in mind? A brand to build? An illustration you're dreaming of? Let's talk about it."
+              | translate
+          }}
         </p>
       </app-section-reveal>
 

@@ -1,8 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { NavbarComponent } from './navbar.component';
+import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { ScrollService } from '../../../core/services/scroll.service';
+import { LanguageService } from '../../../core/services/language.service';
 import { ARTIST_NAME, PERSON_NAME } from '../../../domain/const/site.const';
 
 describe('NavbarComponent', () => {
@@ -32,8 +36,8 @@ describe('NavbarComponent', () => {
     scrollToSection = vi.fn();
 
     await TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [NavbarComponent],
+      imports: [RouterModule.forRoot([]), TranslatePipe],
+      declarations: [NavbarComponent, LanguageToggleComponent],
       providers: [
         {
           provide: ScrollService,
@@ -54,11 +58,19 @@ describe('NavbarComponent', () => {
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
     document.body.style.overflow = '';
+    localStorage.clear();
   });
 
   describe('rendering', () => {
     it('shows the designer name in the logo', () => {
       expect(query('.navbar__logo-name').textContent?.trim()).toBe(PERSON_NAME);
+    });
+
+    it('shows the designer name in Macedonian when that language is active', () => {
+      TestBed.inject(LanguageService).setLanguage('mk');
+      TestBed.inject(ApplicationRef).tick();
+
+      expect(query('.navbar__logo-name').textContent?.trim()).toBe('Роберт Мартиновски');
     });
 
     it('shows the artist alias as the logo subtitle', () => {

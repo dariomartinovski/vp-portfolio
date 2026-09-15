@@ -2,14 +2,14 @@
   <!-- Success state -->
   <div class="cform__success" *ngIf="state === 'success'">
     <div class="cform__success-icon">✦</div>
-    <h3>Message sent.</h3>
-    <p>Thank you for reaching out - I'll get back to you soon.</p>
+    <h3>{{ 'Message sent.' | translate }}</h3>
+    <p>{{ "Thank you for reaching out - I'll get back to you soon." | translate }}</p>
   </div>
 
   <!-- Error state -->
   <div class="cform__error-msg" *ngIf="state === 'error'">
-    <p>Something went wrong. Please try again or email me directly.</p>
-    <button class="cform__retry" (click)="retry()">Try again</button>
+    <p>{{ 'Something went wrong. Please try again or email me directly.' | translate }}</p>
+    <button class="cform__retry" (click)="retry()">{{ 'Try again' | translate }}</button>
   </div>
 
   <!-- Form -->
@@ -31,22 +31,24 @@
 
     <!-- Name -->
     <div class="cform__field">
-      <label class="cform__label" for="name">Name</label>
+      <label class="cform__label" for="name">{{ 'Name' | translate }}</label>
       <input
         id="name"
         class="cform__input"
         [class.invalid]="isInvalid('name')"
         formControlName="name"
         type="text"
-        placeholder="Your name"
+        [placeholder]="'Your name' | translate"
         autocomplete="name"
       />
-      <span class="cform__hint" *ngIf="isInvalid('name')"> Please enter your name </span>
+      <span class="cform__hint" *ngIf="isInvalid('name')">
+        {{ 'Please enter your name' | translate }}
+      </span>
     </div>
 
     <!-- Email -->
     <div class="cform__field">
-      <label class="cform__label" for="email">Email</label>
+      <label class="cform__label" for="email">{{ 'Email' | translate }}</label>
       <input
         id="email"
         class="cform__input"
@@ -56,43 +58,45 @@
         placeholder="your@email.com"
         autocomplete="email"
       />
-      <span class="cform__hint" *ngIf="isInvalid('email')"> Please enter a valid email </span>
+      <span class="cform__hint" *ngIf="isInvalid('email')">
+        {{ 'Please enter a valid email' | translate }}
+      </span>
     </div>
 
     <!-- Project type -->
     <div class="cform__field">
       <label class="cform__label" for="projectType"
-        >Project type
-        <span class="cform__optional">(optional)</span>
+        >{{ 'Project type' | translate }}
+        <span class="cform__optional">{{ '(optional)' | translate }}</span>
       </label>
       <select id="projectType" class="cform__select" formControlName="projectType">
-        <option value="">Select a type...</option>
+        <option value="">{{ 'Select a type...' | translate }}</option>
         <option *ngFor="let type of projectTypes" [value]="type">
-          {{ type }}
+          {{ type | translate }}
         </option>
       </select>
     </div>
 
     <!-- Message -->
     <div class="cform__field">
-      <label class="cform__label" for="message">Message</label>
+      <label class="cform__label" for="message">{{ 'Message' | translate }}</label>
       <textarea
         id="message"
         class="cform__textarea"
         [class.invalid]="isInvalid('message')"
         formControlName="message"
         rows="5"
-        placeholder="Tell me about your project..."
+        [placeholder]="'Tell me about your project...' | translate"
       >
       </textarea>
       <span class="cform__hint" *ngIf="isInvalid('message')">
-        Please enter a message (min 10 characters)
+        {{ 'Please enter a message (min 10 characters)' | translate }}
       </span>
     </div>
 
     <!-- Submit -->
     <button class="cform__submit" type="submit" [disabled]="state === 'submitting'">
-      <span *ngIf="state !== 'submitting'">Send Message</span>
+      <span *ngIf="state !== 'submitting'">{{ 'Send Message' | translate }}</span>
       <span *ngIf="state === 'submitting'" class="cform__spinner"></span>
     </button>
   </form>

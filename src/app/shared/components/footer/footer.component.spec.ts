@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ApplicationRef } from '@angular/core';
 import { FooterComponent } from './footer.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { LanguageService } from '../../../core/services/language.service';
 import { ARTIST_NAME, PERSON_NAME } from '../../../domain/const/site.const';
 
 describe('FooterComponent', () => {
@@ -12,6 +15,7 @@ describe('FooterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FooterComponent],
+      imports: [TranslatePipe],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FooterComponent);
@@ -19,8 +23,17 @@ describe('FooterComponent', () => {
     root = fixture.nativeElement as HTMLElement;
   });
 
+  afterEach(() => localStorage.clear());
+
   it('shows the designer name from the shared constant', () => {
     expect(root.querySelector('.footer__name')?.textContent?.trim()).toBe(PERSON_NAME);
+  });
+
+  it('shows the designer name in Macedonian when that language is active', () => {
+    TestBed.inject(LanguageService).setLanguage('mk');
+    TestBed.inject(ApplicationRef).tick();
+
+    expect(root.querySelector('.footer__name')?.textContent?.trim()).toBe('Роберт Мартиновски');
   });
 
   it('credits the artist alias under a dynamic copyright year', () => {

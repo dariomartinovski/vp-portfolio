@@ -1,0 +1,13 @@
+<div class="lang-toggle" role="group" aria-label="Language / Јазик">
+  <button
+    *ngFor="let lang of languages"
+    class="lang-toggle__btn"
+    [class.active]="isActive(lang.code)"
+    [attr.aria-pressed]="isActive(lang.code)"
+    [attr.aria-label]="lang.label"
+    [title]="lang.label"
+    (click)="select(lang.code)"
+  >
+    <img class="lang-toggle__flag" [src]="lang.flag" [alt]="lang.label" />
+  </button>
+</div>

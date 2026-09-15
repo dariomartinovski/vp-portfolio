@@ -1,0 +1,35 @@
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  &__btn {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    line-height: 0;
+    cursor: pointer;
+    opacity: 0.5;
+    transition:
+      opacity var(--transition-base),
+      outline-color var(--transition-base);
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    &.active {
+      opacity: 1;
+      outline: 2px solid var(--accent-light);
+      outline-offset: 2px;
+    }
+  }
+
+  &__flag {
+    display: block;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+  }
+}
